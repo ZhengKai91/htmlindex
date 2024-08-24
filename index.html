@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>位置信息获取</title>
+  <title>Image Display</title>
   <style>
     /* 简单的样式 */
     body { font-family: Arial, sans-serif; }
@@ -13,37 +13,15 @@
 <body>
   <h1 id="title">Sunset Landscape</h1>
   <img id="image" src="test.png" alt="Image">
-  <button onclick="getLocation()">获取位置</button>
-  <p id="message"></p>
 
   <script>
-    function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-      } else {
-        document.getElementById("message").textContent = "Geolocation is not supported by this browser.";
-      }
-    }
+    // 检查图像是否加载成功
+    const imageElement = document.getElementById('image');
+    imageElement.addEventListener('load', () => {
+      console.log('Image loaded successfully.');
+    });
 
-    function showPosition(position) {
-      fetch('http://your-backend-url/api/submit-location', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        })
-      })
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById("message").textContent = data.message;
-      })
-      .catch(error => {
-        document.getElementById("message").textContent = "Error: " + error;
-      });
-    }
+    // 如果需要，可以在这里添加其他 JavaScript 代码
   </script>
 </body>
 </html>
