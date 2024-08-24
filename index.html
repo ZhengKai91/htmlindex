@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>位置信息获取</title>
+  <style>
+    /* 简单的样式 */
+    body { font-family: Arial, sans-serif; }
+    img { max-width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+  <h1 id="title">Sunset Landscape</h1>
+  <img id="image" src="https://wanx.alicdn.com/wanx/1385786098408733/text_to_image_lite_v2/7e413d69c3d24acab3c8c54d67e17311_0.png?x-oss-process=image/watermark,image_d2FueC93YXRlcm1hcmsvdG9uZ3lpYWlAMXgucG5n,t_80,g_se,x_0,y_0/format,webp" alt="Image">
+  <button onclick="getLocation()">获取位置</button>
+  <p id="message"></p>
+
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        document.getElementById("message").textContent = "Geolocation is not supported by this browser.";
+      }
+    }
+
+    function showPosition(position) {
+      fetch('http://your-backend-url/api/submit-location', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("message").textContent = data.message;
+      })
+      .catch(error => {
+        document.getElementById("message").textContent = "Error: " + error;
+      });
+    }
+  </script>
+</body>
+</html>
